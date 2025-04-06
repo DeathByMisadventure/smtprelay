@@ -31,3 +31,17 @@ device which produces mail.
 * Forwards all mail to a smarthost (any SMTP server)
 * Small codebase
 * IPv6 support
+
+## Docker Container Image
+
+The image uses [Chainguard](https://www.chainguard.dev/) secure images.
+
+Options from the [smtprelay.ini](smtprelay.ini) file should be passed as environmental vasriables, prefixed with SMTPRELAY_ as shown in the example. Utilizing a .env file is also a good way to pass values.
+
+SMTPRELAY_REMOTES is required to be set to a forwarding server otherwise emails are simply discarded.
+
+To run an smtprelay container that relays to gmail smtp servers, listening on port 10025:
+
+```bash
+docker run -e SMTPRELAY_REMOTES='starttls://user@gmail.com:passwordtoken@smtp.gmail.com:587' -p 10025:25 ghcr.io/deathbymisadventure/smtprelay:latest
+```
