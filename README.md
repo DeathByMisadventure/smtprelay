@@ -36,12 +36,19 @@ device which produces mail.
 
 The image uses [Chainguard](https://www.chainguard.dev/) secure images.
 
-Options from the [smtprelay.ini](smtprelay.ini) file should be passed as environmental vasriables, prefixed with SMTPRELAY_ as shown in the example. Utilizing a .env file is also a good way to pass values.
+Options from the [smtprelay.ini](smtprelay.ini) file should be passed as environmental vasriables, prefixed with SMTPRELAY_ as shown in the example. Utilizing a .env file is also a good way to pass values also with SMTPRELAY_ prefix.
 
 SMTPRELAY_REMOTES is required to be set to a forwarding server otherwise emails are simply discarded.
 
 To run an smtprelay container that relays to gmail smtp servers, listening on port 10025:
 
 ```bash
+# Use a simple environmental variable
 docker run -e SMTPRELAY_REMOTES='starttls://user@gmail.com:passwordtoken@smtp.gmail.com:587' -p 10025:25 ghcr.io/deathbymisadventure/smtprelay:latest
+
+# Use a smtprelay.env file with options
+docker run -v ./smtprelay.env:/app/.env -p 10025:25 ghcr.io/deathbymisadventure/smtprelay:latest
+
+# Use a copy of the smtprelay.ini file
+docker run -v ./smtprelay.ini:/app/smtprelay.ini -p 10025:25 ghcr.io/deathbymisadventure/smtprelay:latest
 ```
